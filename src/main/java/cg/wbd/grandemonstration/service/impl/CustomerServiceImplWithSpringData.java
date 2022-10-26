@@ -24,8 +24,14 @@ public class CustomerServiceImplWithSpringData implements CustomerService {
         return streamAll().collect(Collectors.toList());
     }
 
+//    @Override
+//    public Page<Customer> findAll(Pageable pageInfo) {
+//        return customerRepository.findAll(pageInfo);
+//    }
+
     @Override
-    public Page<Customer> findAll(Pageable pageInfo) {
+    public Page<Customer> findAll(Pageable pageInfo) throws Exception {
+        if (true) throw new Exception("a dummy exception");
         return customerRepository.findAll(pageInfo);
     }
 
@@ -42,9 +48,18 @@ public class CustomerServiceImplWithSpringData implements CustomerService {
                 .findAllByNameContainsOrEmailContainsOrAddressContains(keyword, keyword, keyword, pageInfo);
     }
 
+//    @Override
+//    public Optional<Customer> findOne(Long id) {
+//        return customerRepository.findById(id);
+//    }
+
     @Override
-    public Optional<Customer> findOne(Long id) {
-        return customerRepository.findById(id);
+    public Optional<Customer> findOne(Long id) throws Exception {
+        Optional<Customer> customerOptional = customerRepository.findById(id);
+        if (!customerOptional.isPresent()) {
+            throw new Exception("customer not found!");
+        }
+        return customerOptional;
     }
 
     @Override
